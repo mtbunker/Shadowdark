@@ -1,0 +1,1 @@
+This is a python project that uses the random generation tables from ShadowDark TTRPG and automates creation.

@@ -98,8 +98,18 @@ def border_check(previous_hex):
         limits.append(5)
         limits.append(6)
     elif previous_hex + 100 > max(my_map.cells.keys()):
-
-
+        limits.append(2)
+        limits.append(3)
+    else:
+        hex_num_end_str = str(previous_hex)
+        while len(hex_num_end_str) != len(str(my_map.rows)):
+            hex_num_end_str = hex_num_end_str[1:]
+        if int(hex_num_end_str + 1) > my_map.rows:
+            limits.append(4)
+        hex_num_beg_str = (str(previous_hex))
+        while len(hex_num_beg_str) != len(str(my_map.rows)):
+            hex_num_beg_str = hex_num_beg_str[:-1]
+        if
     return limits
 
 def cataclysm_type():

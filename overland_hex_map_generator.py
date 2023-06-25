@@ -4,6 +4,7 @@
 
 import json
 import random
+import sys
 
 
 def dice(sides, number):
@@ -124,17 +125,17 @@ def compass(hex_roll):
 def danger_level(cataclysm):
     danger = ''
     danger_roll = dice(6, 1)
-    # danger_roll = d.roll()
     while danger_roll == 1 and cataclysm == 'Yes':
         danger_roll = dice(6, 1)
-    if danger_roll == 1:
-        danger = 'Safe'
-    elif danger_roll in (2, 3):
-        danger = 'Unsafe'
-    elif danger_roll in (4, 5):
-        danger = 'Risky'
-    elif danger_roll == 6:
-        danger = 'Deadly'
+    match danger_roll:
+        case 1:
+            danger = 'Safe'
+        case 2 | 3:
+            danger = 'Unsafe'
+        case 4 | 5:
+            danger = 'Risky'
+        case 6:
+            danger = 'Deadly'
     return danger
 
 
@@ -350,19 +351,21 @@ if __name__ == '__main__':
     my_map = Map()
     terrain_list = []
     try:
-        column_input = int(input("How wide is your map? (Max.=20)"))
-        row_input = int(input("How tall is your map? (Max.=20)"))
-        file_name = input("Provide a file name: ")
-        file_name = file_name+".json"
-    except AssertionError as error:
-        print("Invalid dimension entered!")
-        print(error)
+        column_input = int(input("How wide is your map? (Max.=99)"))
+        row_input = int(input("How tall is your map? (Max.=99)"))
+        file_name = ''
+        while file_name == '':
+            file_name = str(input("Provide a file name for hex map parameters: "))
+    except ValueError as error:
+        print("Invalid dimension entered! Ending program.")
+        print("Error: ", error)
+        sys.exit(1)
     else:
         if column_input <= 100:
             my_map.x_axis()
         if row_input <= 100:
             my_map.y_axis()
-    finally:
+        file_name = file_name + ".json"
         my_map.find_all_cells()
         print(my_map.cells)
 
